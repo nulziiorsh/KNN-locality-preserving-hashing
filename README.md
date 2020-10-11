@@ -4,10 +4,16 @@ Author: Nasanbayar Ulzii-Orshikh
 
 Date: 09/15/2020
 
+**META-DESCRIPTION:**
+
+Inevitably, I learned from the very first lab of the Machine Learning course how to better implement KNN, namely,
+non-arbitrarily compute the hyperparameter K, that Iris Form bases upon. Additionally, to achieve a better time complexity, I
+implemented a Locality-preserving hashing (LPH) algorithm that given a feature vector accesses its near neighbors in O(1).
+
 **DESCRIPTION:**
 
 knn.py is an implementation of the full experimentation pipeline for a K-Nearest Neighbor model,
-trained with a custom locality-preserving hashing algorithm, available in locality_preserving_hashing,py.
+trained with a custom locality-preserving hashing algorithm, available in locality_preserving_hashing.py.
 
 **DESIGN:**
 
