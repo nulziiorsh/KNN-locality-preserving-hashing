@@ -8,48 +8,49 @@ Date: 09/15/2020
 
 Inevitably, I learned from the very first lab of the Machine Learning course how to better implement KNN, namely,
 non-arbitrarily compute the hyperparameter K, that Iris Form bases upon. Additionally, to achieve a better time complexity, I
-implemented a Locality-preserving hashing (LPH) algorithm that, summarized, breaks the vector space into buckets and given a feature
+implemented a locality-preserving hashing (LPH) algorithm that, summarized, breaks the vector space into buckets and given a feature
 vector accesses a bucket of its nearest neighbors in O(1).
 
 **DESCRIPTION:**
 
 knn.py is an implementation of the full experimentation pipeline for a K-Nearest Neighbor model,
-trained with a custom locality-preserving hashing algorithm, available in locality_preserving_hashing.py.
+trained with a locality-preserving hashing algorithm (LPH), available in locality_preserving_hashing.py.
 
 **DESIGN:**
 
-Locality-preserving hashing (LPH) algorithm consists of two parts: breaking the feature space into buckets and given
+LPH consists of two parts: breaking the feature space into buckets and given
 a vector, hashing it to access only the "relevant" bucket of the space -- a group of vectors that are the closest
 to the given vector.
 
 To break the space into buckets, [1] uses a vector, the components of which is selected randomly from a Gaussian
 distribution, to compute its dot products with the training examples and find the threshold probability above which two
 vectors are likely to be in the same part of the feature space. However, when I tried to use its core concept without
-the probability thresholds, it wasn't possible: if we have the "template" vector [1,1] and find its dot products with
+the probability thresholds, it wasn't accurate: if we have the "template" vector [1,1] and find its dot products with
 [3,-2] and [0,1], both would result in 1, although these two vectors likely represent two very different instances.
 
 At the same time, [2] proposes breaking the space radially. However, for instance, in the two-dimensional space, doing so
 would mean we'd have to find the distances between a given vector in the first quarter with the vectors in the same quarter,
 as well as the second, third, and fourth quarters, although vectors there likely represent completely different instances
-from the that of the given vector. Further, this would blow up the complexity in higher dimensions.
+from that of the given vector. Further, this would blow up the complexity in higher dimensions.
 
 Instead, I propose to first hold the directionality as "constant" (without considering it for hashing) and bucket the
-vectors radially by dividing the radius range into several sections, then for each radius bucket, hold the radius as "constant" (as the radii of the vectors in a given
+vectors radially by dividing the radius range into several sections; then, for each radius bucket, hold the radius as "constant" (as the radii of the vectors in a given
 bucket would be essentially the same) and bucket the vectors directionally by using a few "template" vectors. In the script,
-I use 10 radial buckets and 2 "template vectors" that each break the dot-product range into two sections, resulting in
-total of 40 buckets. The details of how, what I call, the granularity and other properties of the parts in the vector
-space was computed can be read in locality_preserving_hashing,py, and the hand notes about the process can be found in lph_notes.pdf.
+I use 10 radial buckets and 2 "template vectors" that each break the dot-product range into two sections, resulting in a
+total of 40 buckets. The details of how, what I call, the "granularity" and other properties of the parts in the vector
+space was computed can be read in locality_preserving_hashing.py.
 
-To implement this algorithm, I use a custom KnnHashTable data structure and hashing function. The reason I decided to
+To implement this algorithm, I use a custom KnnHashTable data structure and hashing function. Using a Python dictionary is indeed a possible alternative; however, the reason I decided to
 go with these is because the way that the vectors are hashed is not individual vector key leading to some value as is in a Python dictionary,
 but the vector that’s being hashed becomes part of an iterable that the vector itself leads to. If I use a dictionary as a data structure based on hashing,
 it must preserve both the key and the values. That is, for each vector of the same bucket in the feature space,
 I’d have to assign the same bucket of vectors in the dictionary, which then would have to be updated each
 time there is a new vector in it for each of the vector keys that you can access it with. That is computationally
-too expensive. Instead, the custom data structure leverages on the collision of keys, where two vectors can lead to the same bucket.
+too expensive. Instead, the new data structure leverages on the collision of keys, where two vectors can lead to the same bucket.
+
 One might argue that it is the same as the value in the dictionary being a pointer to some list. However, even if it was,
-a Python dictionary does not allow a custom hashing function, instead hashing each vector to an automatic, unique bucket, in this case, of a pointer, while the custom
-data structure allows such a two-step hashing as described above and directly leads to the specific bucket of interest
+a Python dictionary does not allow a customized hashing function, instead hashing each vector to an automatic, unique bucket, in this case, of a pointer, while the new
+data structure allows for such a two-step hashing as described above and directly leads to the specific bucket of interest
 without storing a pointer for each of the vector keys.
 
 **EXTENSIONS IMPLEMENTED:**
@@ -91,12 +92,12 @@ Example inputs to the terminal:
 
 **RESULTS:**
 
-Even despite the classic model made more efficient, the KNN model based on the
-the custom locality-preserving hashing algorithm is on average 91% faster than the classic model, while its
+Even despite the classic model made more efficient, the KNN model based on the locality-preserving hashing algorithm
+is on average 91% faster than the classic one, while its
 accuracy does not differ from the classic one by more than 8%, keeping the overall accuracy higher than 87%
 throughout its performance. This implies that the model has well learnt the classification task.
 
 Although depending on the context in which the model is being used -- for instance, in the case of helping a visually
-impaired person --, the minimum 87% accuracy might not be suitable, for other contexts where the user is trying to get a sense
-of the data as fast as they can, being able to perform the classification task at such an accuracy level within 1/10th
+impaired person --, the minimum 87% accuracy might not be suitable, for other contexts where the user is trying to quickly "get a sense
+of the data", being able to perform the classification task at a minimum accuracy of 87% within 1/10th
 of the classic time is indeed very useful.
