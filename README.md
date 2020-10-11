@@ -4,11 +4,11 @@ Author: Nasanbayar Ulzii-Orshikh
 
 Date: 09/15/2020
 
-DESCRIPTION:
+**DESCRIPTION:**
 
 knn.py is an implementation of the full experimentation pipeline for a K-Nearest Neighbor model, trained with a custom locality-preserving hashing algorithm, available in locality_preserving_hashing,py.
 
-DESIGN:
+**DESIGN:**
 
 Locality-preserving hashing (LPH) algorithm consists of two parts: breaking the feature space into buckets and given a vector, hashing it to access only the "relevant" bucket of the space -- a group of vectors that are the closest to the given vector.
 
@@ -20,7 +20,7 @@ Instead, I propose to first hold the directionality as "constant" (without consi
 
 To implement this algorithm, I use a custom KnnHashTable data structure and hashing function. The reason I decided to go with these is because the way that the vectors are hashed is not individual vector key leading to some value as is in a Python dictionary, but the vector that’s being hashed becomes part of an iterable that the vector itself leads to. If I use a dictionary as a data structure based on hashing, it must preserve both the key and the values. That is, for each vector of the same bucket in the feature space, I’d have to assign the same bucket of vectors in the dictionary, which then would have to be updated each time there is a new vector in it for each of the vector keys that you can access it with. That is computationally too expensive. Instead, the custom data structure leverages on the collision of keys, where two vectors can lead to the same bucket. One might argue that it is the same as the value in the dictionary being a pointer to some list. However, even if it was, a Python dictionary does not allow a custom hashing function, instead hashing each vector to an automatic, unique bucket, in this case, of a pointer, while the custom data structure allows such a two-step hashing as described above and directly leads to the specific bucket of interest without storing a pointer for each of the vector keys.
 
-EXTENSIONS IMPLEMENTED:
+**EXTENSIONS IMPLEMENTED:**
 
 Performs a multi-class classification: generally, adding another class seems to make a small bump in the middle of the graph more evident or even appear, increasing the value of the optimal K.
 
@@ -39,7 +39,8 @@ Python3 knn.py "[1,7,8]" 5124 -1 0
 Python3 knn.py "[4,0]" -1 -1 1
 Python3 knn.py "[6,7]" -1 4 1
 Python3 knn.py -1 -1 -1 1
-RESULTS:
+
+**RESULTS:**
 
 Even despite the classic model made more efficient, the KNN model based on the the custom locality-preserving hashing algorithm is on average 91% faster than the classic model, while its accuracy does not differ from the classic one by more than 8%, keeping the overall accuracy higher than 87% throughout its performance. This implies that the model has well learnt the classification task.
 
