@@ -4,7 +4,7 @@ Author: Nasanbayar Ulzii-Orshikh
 
 Date: 09/15/2020
 
-**DESCRIPTION:**
+*DESCRIPTION:*
 
 knn.py is an implementation of the full experimentation pipeline for a K-Nearest Neighbor model, trained with a custom locality-preserving hashing algorithm, available in locality_preserving_hashing,py.
 
