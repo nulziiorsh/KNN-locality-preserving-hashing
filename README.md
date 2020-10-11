@@ -101,3 +101,14 @@ Although depending on the context in which the model is being used -- for instan
 impaired person --, the minimum 87% accuracy might not be suitable, for other contexts where the user is trying to quickly "get a sense
 of the data", being able to perform the classification task at a minimum accuracy of 87% within 1/10th
 of the classic time is indeed very useful.
+
+**CITATIONS:**
+
+[1] Slaney & Casey, "Locality-Sensitive Hashing for Finding Nearest Neighbors", *IEEE Signal Processing Magazine*, 2008.
+
+[2] Kosov, "Efficient K-Nearest Neighbours", *Project X Research*, 2018.
+
+- Informal coining of "template" vector belongs to Professor Sara Mathieson.
+- The form of rounding numbers was adapted from https://stackoverflow.com/questions/19986662/rounding-a-number-in-python-but-keeping-ending-zeros
+- The form of counting duration of execution time was adapted from https://realpython.com/python-timer/
+- The method of finding the key with the max value in a dictionary was adapted from https://www.geeksforgeeks.org/python-get-key-with-maximum-value-in-dictionary/
