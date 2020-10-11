@@ -8,7 +8,7 @@ Date: 09/15/2020
 
 Inevitably, I learned from the very first lab of the Machine Learning course how to better implement KNN, namely,
 non-arbitrarily compute the hyperparameter K, that Iris Form bases upon. Additionally, to achieve a better time complexity, I
-implemented a Locality-preserving hashing (LPH) algorithm that given a feature vector accesses its near neighbors in O(1).
+implemented a Locality-preserving hashing (LPH) algorithm that given a feature vector accesses a bucket of its nearest neighbors in O(1).
 
 **DESCRIPTION:**
 
