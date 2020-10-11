@@ -72,14 +72,14 @@ more evident or even appear, increasing the value of the optimal K.
     However, one could argue that we might want to find the most optimal k within a smaller range of candidates —
     I think that would be totally valid; we’d then have to change how the input is processed and propagates throughout
     the pipeline.
-    4. Comparison mode: 0 means not a comparison mode and 1 means indeed a comparison mode, which means that
-    the KNN-model trained with a custom locality-preserving hashing (LPH) algorithm would be compared  in terms of its time efficiency to the classic
+    4. Comparison mode: = 1 means that
+    the KNN-model trained with a custom locality-preserving hashing (LPH) algorithm would be compared in terms of its time efficiency to the classic
     KNN-prediction algorithm from "A Course in Machine Learning" by Hal Daumé III (p. 33), modified to be
     more efficient by sorting the distances only once and using them for the different K values. This is because
     it would be unfair if the hashing method uses the same distance array for finding K neighbors in range(K),
     while the classic one has to calculate distances for each test vector each time it receives a new K.
     Instead, both algorithms use their own and the same distance array every time they have to find K nearest neighbors
-    for different K values. The difference in time then really comes from (not) breaking the vector space into buckets and (not) using hashing
+    for different K values. The difference in time, then, really comes from (not) breaking the vector space into buckets and (not) using hashing
     function for each test vector to get neighbors only from a set of vectors that are in the vicinity of the hashed vector.
 
 Example inputs to the terminal:
